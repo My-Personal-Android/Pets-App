@@ -46,7 +46,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private static final int EXISTING_PET_LOADER = 0;
 
     // OnTouchListener that listens for any user touches on a View, implying that they are modifying
-// the view, and we change the mPetHasChanged boolean to true.
+    // the view, and we change the mPetHasChanged boolean to true.
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -60,7 +60,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-
 
         Intent intent = getIntent();
 
@@ -104,6 +103,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         // If this is a new pet, hide the "Delete" menu item.
+        // it is automatically called when invalidateOptionsMenu(); method called in onCreate() of this EditorActivity
         if (mCurrentPetUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
@@ -118,7 +118,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
-        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener); // this will automatically call Finish() function
         builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
@@ -143,7 +143,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         // Otherwise if there are unsaved changes, setup a dialog to warn the user.
-        // Create a click listener to handle the user confirming that changes should be discarded.
+        // Create a click listener to handle the user confirming that changes should be discarded. or keep changing
         DialogInterface.OnClickListener discardButtonClickListener =
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -194,16 +194,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String breedString = mBreedEditText.getText().toString().trim();
         String weightString = mWeightEditText.getText().toString().trim();
 
-        if (mCurrentPetUri == null &&
-                TextUtils.isEmpty(nameString)) {
+        if (TextUtils.isEmpty(nameString)) {
 
             Toast.makeText(this, "Pet Not Save \nPet Name Missing", Toast.LENGTH_LONG).show();
 
             return;
         }
 
-        if (mCurrentPetUri == null &&
-                mGender == PetEntry.GENDER_UNKNOWN) {
+        if ( mGender == PetEntry.GENDER_UNKNOWN) {
 
             Toast.makeText(this, "Pet Not Save \nUnknown Gender", Toast.LENGTH_LONG).show();
 
@@ -212,9 +210,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         int weight = 0;
 
-        if (!TextUtils.isEmpty(weightString)) {
-            weight = Integer.parseInt(weightString);
+        if (TextUtils.isEmpty(weightString) || weightString.equals(null)) {
+            Toast.makeText(this, "Pet Not Save \nMissing Weight", Toast.LENGTH_LONG).show();
+            return;
+
         }
+
+        weight = Integer.parseInt(weightString);
 
         ContentValues values = new ContentValues();
         values.put(PetEntry.COLUMN_PET_NAME, nameString);
@@ -303,14 +305,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
+    // this loader is called automatically when the record data come from catalog activity to get from database
         String[] projection = {
                 PetEntry._ID,
                 PetEntry.COLUMN_PET_NAME,
                 PetEntry.COLUMN_PET_BREED,
                 PetEntry.COLUMN_PET_GENDER,
                 PetEntry.COLUMN_PET_WEIGHT};
-
+        // load record in background
         return new CursorLoader(this,
                 mCurrentPetUri,
                 projection,             // Columns to include in the resulting Cursor

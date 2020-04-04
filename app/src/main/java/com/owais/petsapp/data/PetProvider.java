@@ -85,6 +85,9 @@ public class PetProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
+        // for better performance of software in case of large data otherwise do not use this method
+        // this method is used to know which type of data to handle like cursor or id
+        // this is automatically called by contentprovider
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PETS:
@@ -164,11 +167,11 @@ public class PetProvider extends ContentProvider {
 
         switch (match) {
             case PETS: {
-
+                // to check validation new method is called
                 return updatePet(uri, contentValues, selection, selectionArgs);
             }
             case PET_ID: {
-
+                // to check validation new method is called
                 selection = PetContract.PetEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updatePet(uri, contentValues, selection, selectionArgs);

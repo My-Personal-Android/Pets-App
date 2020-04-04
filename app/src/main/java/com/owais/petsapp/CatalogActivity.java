@@ -126,14 +126,15 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) { // runs on backgroun thread to load all data when new object is created
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // runs on backgrounD thread to load all data from database when new object is created
 
         String[] projection = {
                 PetEntry._ID,
                 PetEntry.COLUMN_PET_NAME,
                 PetEntry.COLUMN_PET_BREED};
 
-// the new class like AsyncTaskLoader not created because it is concrete class not abstract like AsyncTaskLoader
+        // the new class like AsyncTaskLoader not created because it is concrete class not abstract like AsyncTaskLoader
         return new CursorLoader(this,
                 PetEntry.CONTENT_URI,
                 projection,

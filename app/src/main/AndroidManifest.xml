@@ -26,6 +26,11 @@
             android:name=".data.PetProvider"
             android:authorities="com.owais.petsapp"
             android:exported="false"></provider>
+        <!--
+             Authorites are for : package path that direct other application to PetProvider
+             Name is            : directing to the provider
+             exported is used   : to make data available to other apps
+        -->
     </application>
 
 </manifest>

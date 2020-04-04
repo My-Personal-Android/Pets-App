@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.owais.petsapp.data.PetContract;
+import com.owais.petsapp.data.PetContract.PetEntry;
 
 public class PetCursorAdapter extends CursorAdapter {
 
@@ -30,8 +30,8 @@ public class PetCursorAdapter extends CursorAdapter {
         TextView textView1 = (TextView) view.findViewById(R.id.name);
         TextView textView2 = (TextView) view.findViewById(R.id.breed);
 
-        String Name = cursor.getString(cursor.getColumnIndex(PetContract.PetEntry.COLUMN_PET_NAME));
-        String Breed = cursor.getString(cursor.getColumnIndex(PetContract.PetEntry.COLUMN_PET_BREED));
+        String Name = cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_NAME));
+        String Breed = cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_BREED));
 
         if (TextUtils.isEmpty(Breed)) {
             Breed = context.getString(R.string.unknown_breed);

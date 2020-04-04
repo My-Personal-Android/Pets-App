@@ -9,8 +9,10 @@ import android.provider.BaseColumns;
 // while inside this all the classes are serve as a table schema in a database given by SqliteOpenHelper
 public final class PetContract {
 
+    // this package name of app
     public static final String CONTENT_AUTHORITY = "com.owais.petsapp";
 
+    // the whole URI to app Package
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // this represents as table name
@@ -25,9 +27,11 @@ public final class PetContract {
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);// "content://com.owais.petsapp/pets"
 
+        // this is for checking data of list type that helps to contentprovider to load data easily
         public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
 
+        // this is for checking data of item type that helps to contentprovider to load data easily
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
 

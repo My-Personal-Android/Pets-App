@@ -14,7 +14,7 @@ public class PetDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "shelter.db"; // database name
 
-   // this version number  is used to update any column or add a column to used existing data in the table
+    // this version number  is used to update any column or add a column to used existing data in the table
     private static final int DATABASE_VERSION = 1;
 
     public PetDbHelper(Context context) {
@@ -22,7 +22,8 @@ public class PetDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) { // creating tables that are required for the above database
+    public void onCreate(SQLiteDatabase db) {
+        // creating tables that are required for the above database
 
         String SQL_CREATE_PETS_TABLE = "CREATE TABLE " + PetEntry.TABLE_NAME + " ("
                 + PetEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
